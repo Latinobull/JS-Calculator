@@ -5,24 +5,13 @@ const oper = ['+', '-', '*', '/'];
 let prevNumber;
 let operatorIndex = 0;
 let numberIndex = 1;
-btnContainer.addEventListener('click', e => {
-  if (e.target.matches('button')) {
-    const choice = e.target.dataset.value;
-    if (choice.match('=')) return submit(area.textContent);
-    if (choice.match('C')) return (area.textContent = '');
-    if (
-      e.target.className === 'operators' &&
-      oper.some(op =>
-        area.textContent[area.textContent.length - 1].includes(op)
-      )
-    )
-      return;
-    area.textContent += e.target.dataset.value;
-  }
-});
 
 function submit(data) {
-d  area.textContent = '';
+  if (
+    oper.some(op => area.textContent[area.textContent.length - 1].includes(op))
+  )
+    return;
+  area.textContent = '';
   const numbers = data.split(/\+|\-|\*|\//g);
   const operators = data.replace(/[0-9]|\./g, '').split('');
 
@@ -46,6 +35,8 @@ d  area.textContent = '';
       default:
         break;
     }
+    numberIndex++;
+    operatorIndex++;
   }
   result.textContent = '';
   result.textContent = prevNumber;
@@ -56,24 +47,57 @@ d  area.textContent = '';
 
 function add(num1, num2) {
   prevNumber = parseInt(num1) + parseInt(num2);
-  numberIndex++;
-  operatorIndex++;
 }
 
 function minus(num1, num2) {
   prevNumber = parseInt(num1) - parseInt(num2);
-  numberIndex++;
-  operatorIndex++;
 }
 
 function multiply(num1, num2) {
   prevNumber = parseInt(num1) * parseInt(num2);
-  numberIndex++;
-  operatorIndex++;
 }
 
 function divide(num1, num2) {
   prevNumber = parseInt(num1) / parseInt(num2);
-  numberIndex++;
-  operatorIndex++;
 }
+
+btnContainer.addEventListener('click', e => {
+  if (e.target.matches('button')) {
+    const choice = e.target.textContent;
+    if (choice.match('=')) return submit(area.textContent);
+    if (choice.match('C')) return (area.textContent = '');
+    if (choice.match('<'))
+      return (area.textContent = area.textContent.slice(0, -1));
+
+    if (
+      e.target.className === 'operators' &&
+      oper.some(op =>
+        area.textContent[area.textContent.length - 1].includes(op)
+      )
+    )
+      return;
+    area.textContent += e.target.textContent;
+  }
+});
+
+addEventListener('keydown', e => {
+  console.log(e);
+  if (e.key === 'Enter' || e.key === '=') return submit(area.textContent);
+  if (e.code === 'KeyC') return (area.textContent = '');
+  if (e.key === 'Backspace' || e.key === 'Delete') {
+    return (area.textContent = area.textContent.slice(0, -1));
+  }
+  if (
+    oper.some(op => e.key.includes(op)) &&
+    oper.some(op => area.textContent[area.textContent.length - 1].includes(op))
+  ) {
+    return;
+  }
+  if (
+    e.code.includes('Digit') ||
+    e.code.includes('Numpad') ||
+    oper.some(op => e.key.includes(op))
+  ) {
+    area.textContent += e.key;
+  }
+});
