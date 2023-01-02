@@ -22,8 +22,8 @@ btnContainer.addEventListener('click', e => {
 });
 
 function submit(data) {
-  area.textContent = '';
-  const numbers = data.split(/\+|\-|\×|\÷/g);
+d  area.textContent = '';
+  const numbers = data.split(/\+|\-|\*|\//g);
   const operators = data.replace(/[0-9]|\./g, '').split('');
 
   while (operators.length - 1 >= operatorIndex) {
@@ -36,6 +36,12 @@ function submit(data) {
       case '-':
         minus(num1, num2);
         break;
+      case '*':
+        multiply(num1, num2);
+        break;
+      case '/':
+        divide(num1, num2);
+        break;
 
       default:
         break;
@@ -43,6 +49,9 @@ function submit(data) {
   }
   result.textContent = '';
   result.textContent = prevNumber;
+  prevNumber = undefined;
+  operatorIndex = 0;
+  numberIndex = 1;
 }
 
 function add(num1, num2) {
@@ -53,6 +62,18 @@ function add(num1, num2) {
 
 function minus(num1, num2) {
   prevNumber = parseInt(num1) - parseInt(num2);
+  numberIndex++;
+  operatorIndex++;
+}
+
+function multiply(num1, num2) {
+  prevNumber = parseInt(num1) * parseInt(num2);
+  numberIndex++;
+  operatorIndex++;
+}
+
+function divide(num1, num2) {
+  prevNumber = parseInt(num1) / parseInt(num2);
   numberIndex++;
   operatorIndex++;
 }
