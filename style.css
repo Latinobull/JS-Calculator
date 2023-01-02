@@ -1,7 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: grid;
+  height: 100vh;
+}
+.calculator {
+  place-self: center;
+}
 #input {
-  border: 2px solid black;
+  border: 2px solid #bbb;
   height: 40px;
-  width: 400px;
-  margin-bottom: 5px;
+  width: 600px;
   font-size: 30px;
+}
+.btnContainer {
+  max-width: 600px;
+}
+.numbers {
+  display: inline-block;
+}
+.numbers div {
+  display: inline-block;
+  width: 100px;
+  background-color: #bbb;
+  border: 1px solid #ddd;
+  border-radius: 1px;
+  width: 80px;
+  text-align: center;
+  padding: 10px;
+  margin: 10px 4px 10px 0;
+}
+
+.operators {
+  display: inline-block;
+}
+.operators div {
+  width: 80px;
+  background-color: #bbb;
 }

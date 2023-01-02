@@ -46,19 +46,19 @@ function submit(data) {
 }
 
 function add(num1, num2) {
-  prevNumber = parseInt(num1) + parseInt(num2);
+  prevNumber = parseFloat(num1) + parseFloat(num2);
 }
 
 function minus(num1, num2) {
-  prevNumber = parseInt(num1) - parseInt(num2);
+  prevNumber = parseFloat(num1) - parseFloat(num2);
 }
 
 function multiply(num1, num2) {
-  prevNumber = parseInt(num1) * parseInt(num2);
+  prevNumber = parseFloat(num1) * parseFloat(num2);
 }
 
 function divide(num1, num2) {
-  prevNumber = parseInt(num1) / parseInt(num2);
+  prevNumber = parseFloat(num1) / parseFloat(num2);
 }
 
 btnContainer.addEventListener('click', e => {
@@ -81,7 +81,6 @@ btnContainer.addEventListener('click', e => {
 });
 
 addEventListener('keydown', e => {
-  console.log(e);
   if (e.key === 'Enter' || e.key === '=') return submit(area.textContent);
   if (e.code === 'KeyC') return (area.textContent = '');
   if (e.key === 'Backspace' || e.key === 'Delete') {
