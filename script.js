@@ -1,6 +1,7 @@
 const area = document.querySelector('#input');
 const result = document.querySelector('#result');
 const btnContainer = document.querySelector('.btnContainer');
+const btnArr = document.querySelectorAll('.btn');
 const oper = ['+', '-', '*', '/'];
 let prevNumber;
 let operatorIndex = 0;
@@ -76,6 +77,10 @@ btnContainer.addEventListener('click', e => {
       )
     )
       return;
+    e.target.animate(
+      { background: 'rgb(39, 101, 225)' },
+      { duration: 100, iteration: 1 }
+    );
     area.textContent += e.target.textContent;
   }
 });
@@ -99,6 +104,14 @@ addEventListener('keydown', e => {
     oper.some(op => e.key.includes(op)) ||
     e.code.includes('Period')
   ) {
+    let targetedBtn;
+    btnArr.forEach(btn => {
+      if (btn.textContent == e.key) targetedBtn = btn;
+    });
+    targetedBtn.animate(
+      { background: 'rgb(39, 101, 225)' },
+      { duration: 100, iteration: 1 }
+    );
     area.textContent += e.key;
   }
 });
