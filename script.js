@@ -62,7 +62,7 @@ function divide(num1, num2) {
 }
 
 btnContainer.addEventListener('click', e => {
-  if (e.target.matches('button')) {
+  if (e.target.matches('.btn')) {
     const choice = e.target.textContent;
     if (choice.match('=')) return submit(area.textContent);
     if (choice.match('C')) return (area.textContent = '');
