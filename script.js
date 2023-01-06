@@ -92,10 +92,12 @@ addEventListener('keydown', e => {
   ) {
     return;
   }
+  console.log(e);
   if (
     e.code.includes('Digit') ||
     e.code.includes('Numpad') ||
-    oper.some(op => e.key.includes(op))
+    oper.some(op => e.key.includes(op)) ||
+    e.code.includes('Period')
   ) {
     area.textContent += e.key;
   }

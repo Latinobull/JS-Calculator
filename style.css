@@ -14,9 +14,17 @@ body {
 }
 #input {
   border: 2px solid #bbb;
-  height: 40px;
+  height: 80px;
   width: 600px;
-  font-size: 30px;
+  font-size: 60px;
+}
+#input::after {
+  content: '';
+  width: 2px;
+  height: 42px;
+  background-color: black;
+  display: inline-block;
+  animation: cursor-blink 1.2s steps(2) infinite;
 }
 .btnContainer {
   max-width: 600px;
@@ -27,13 +35,15 @@ body {
   flex-wrap: wrap;
   min-width: 450px;
 }
-.numbers div {
+.numbers div,
+.operators div {
   width: 150px;
   background-color: #bbb;
   border: 1px solid #ddd;
   border-radius: 1px;
   text-align: center;
-  padding: 10px;
+  padding: 35px 10px;
+  cursor: pointer;
 }
 
 .operators {
@@ -43,13 +53,14 @@ body {
 }
 .operators div {
   width: 75px;
-  background-color: #bbb;
-  border: 1px solid #ddd;
-  border-radius: 1px;
-  text-align: center;
-  padding: 10px;
 }
 
 .operators .btn:last-child {
   width: 150px;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
 }
