@@ -8,15 +8,14 @@ let operatorIndex = 0;
 let numberIndex = 1;
 
 function submit(data) {
-  if (
-    oper.some(op => area.textContent[area.textContent.length - 1].includes(op))
-  )
+  if (oper.includes(data[data.length - 1])) {
     return;
+  }
   area.textContent = '';
   const numbers = data.split(/\+|\-|\*|\//g);
   const operators = data.replace(/[0-9]|\./g, '').split('');
 
-  while (operators.length - 1 >= operatorIndex) {
+  while (operators.length > operatorIndex) {
     let num1 = prevNumber || numbers[0];
     let num2 = numbers[numberIndex];
     switch (operators[operatorIndex]) {
@@ -32,14 +31,10 @@ function submit(data) {
       case '/':
         divide(num1, num2);
         break;
-
-      default:
-        break;
     }
     numberIndex++;
     operatorIndex++;
   }
-  result.textContent = '';
   result.textContent = prevNumber;
   prevNumber = undefined;
   operatorIndex = 0;
@@ -65,16 +60,14 @@ function divide(num1, num2) {
 btnContainer.addEventListener('click', e => {
   if (e.target.matches('.btn')) {
     const choice = e.target.textContent;
-    if (choice.match('=')) return submit(area.textContent);
-    if (choice.match('C')) return (area.textContent = '');
-    if (choice.match('<'))
+    if (choice === '=') return submit(area.textContent);
+    if (choice === 'C') return (area.textContent = '');
+    if (choice === '<')
       return (area.textContent = area.textContent.slice(0, -1));
 
     if (
-      e.target.className === 'operators' &&
-      oper.some(op =>
-        area.textContent[area.textContent.length - 1].includes(op)
-      )
+      oper.some(op => choice.includes(op)) &&
+      oper.includes(area.textContent[area.textContent.length - 1])
     )
       return;
     e.target.animate(
@@ -86,32 +79,29 @@ btnContainer.addEventListener('click', e => {
 });
 
 addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === '=') return submit(area.textContent);
-  if (e.code === 'KeyC') return (area.textContent = '');
-  if (e.key === 'Backspace' || e.key === 'Delete') {
-    return (area.textContent = area.textContent.slice(0, -1));
+  const { key, code } = e;
+  if (key === 'Enter' || key === '=') submit(area.textContent);
+  if (code === 'KeyC') area.textContent = '';
+  if (key === 'Backspace' || key === 'Delete') {
+    area.textContent = area.textContent.slice(0, -1);
   }
   if (
-    oper.some(op => e.key.includes(op)) &&
-    oper.some(op => area.textContent[area.textContent.length - 1].includes(op))
+    oper.includes(key) &&
+    oper.includes(area.textContent[area.textContent.length - 1])
   ) {
     return;
   }
-  console.log(e);
   if (
-    e.code.includes('Digit') ||
-    e.code.includes('Numpad') ||
-    oper.some(op => e.key.includes(op)) ||
-    e.code.includes('Period')
+    code.includes('Digit') ||
+    code.includes('Numpad') ||
+    oper.includes(key) ||
+    code.includes('Period')
   ) {
-    let targetedBtn;
-    btnArr.forEach(btn => {
-      if (btn.textContent == e.key) targetedBtn = btn;
-    });
+    const targetedBtn = Array.from(btnArr).find(btn => btn.textContent === key);
     targetedBtn.animate(
       { background: 'rgb(39, 101, 225)' },
       { duration: 100, iteration: 1 }
     );
-    area.textContent += e.key;
+    area.textContent += key;
   }
 });
